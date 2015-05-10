@@ -2,16 +2,41 @@
 <html>
 <head>
     <title>Payroll calculator</title>
-    <script src="https://github.jspm.io/jmcriffey/bower-traceur-runtime@0.0.87/traceur-runtime.js"></script>
-    <script src="js/lib/angular2.js"></script>
+    <script src="js/lib/angular.min.js"></script>
     <script src="js/app.js"></script>
+    <link href="css/styles.css" media="all" rel="stylesheet" />
 </head>
-<body>
+<body ng-app="app">
+<div class="container">
 
-<!-- The app component created in app.ts -->
-<my-app>
+    <div class="row">
+        <h1>TypeScript AngularJS Controller Example</h1>
+    </div>
 
-</my-app>
+    <div ng-controller="KittenController as kitten" class="row">
+        <div class="col-md-3">
+            <form>
+                <div class="form-group">
+                    <label for="width">Width:</label>
+                    <input id="width" class="form-control" type="number" ng-model="kitten.width" />
+                </div>
+                <div class="form-group">
+                    <label for="height">Height:</label>
+                    <input id="height" class="form-control" type="number" ng-model="kitten.height" />
+                </div>
+                <p ng-show="kitten.status">{{kitten.status}}</p>
+            </form>
+        </div>
+        <div class="col-md-9">
+            <div class="panel panel-default" ng-show="kitten.imageUrl">
+                <div class="panel-heading">{{kitten.imageUrl}}</div>
+                <div class="panel-body">
+                    <img ng-src="{{kitten.imageUrl}}" alt="Kitten" class="img-thumbnail" />
+                </div>
+            </div>
+        </div>
+    </div>
 
+</div>
 </body>
 </html>

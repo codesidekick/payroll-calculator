@@ -1,5 +1,5 @@
 # Libraries and modules should be installed via Grunt.
-libraries
 node_modules
-src/ts/angular2
-dist/js/lib
+bower_components
+dist/lib/*
+src/ts/typings

@@ -4,29 +4,58 @@ module.exports = function(grunt){
     pkg: grunt.file.readJSON('package.json'),
     shell: {
       multiple: {
-        command: ['bower install',
-          'rm -r libraries/*',
-          'mv bower_components/** libraries/',
-          'rm -rf bower_components',
-          'rm -rf dist/js/lib && mkdir dist/js/lib',
-          'mv libraries/angular2/index.js dist/js/lib/angular2.js',
-          'tsd query angular2 --action install',
-          'mv typings/angular2 src/ts/angular2',
-          'rm -rf typings'
+        command: [
+          'tsd reinstall --save --overwrite',
+          'grunt bower:install'
         ].join('&&')
       }
     },
     typescript: {
       base: {
-        src: ['src/ts/**/*.ts'],
-        dest: 'docroot/js/app.js',
+        src: ['src/ts/*.ts'],
+        dest: 'dist/js/app.js',
         options: {
           module: 'amd', //or commonjs
           target: 'es5', //or es3
-          basePath: 'docroot/ts',
+          basePath: 'src/ts',
           sourceMap: true,
           declaration: true,
           watch: true
+        }
+      }
+    },
+    sass: {
+      options: {
+        sourceMap: true
+      },
+      dist: {
+        files: {
+          'dist/css/styles.css': 'src/scss/styles.scss'
+        }
+      }
+    },
+    watch: {
+      css: {
+        files: ['src/scss/**/*.scss'],
+        tasks: ['sass']
+      },
+      typescript: {
+        files: ['src/ts/**/*.ts'],
+        tasks: ['typescript']
+      }
+    },
+    concurrent: {
+      options: {
+        logConcurrentOutput: true
+      },
+      dev: {
+        tasks: ["watch:css", "watch:typescript"]
+      }
+    },
+    bower: {
+      install: {
+        options : {
+          targetDir : "dist/lib"
         }
       }
     }
@@ -34,12 +63,12 @@ module.exports = function(grunt){
 
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-typescript');
+  grunt.loadNpmTasks('grunt-bower-task');
+  grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-concurrent');
+  grunt.loadNpmTasks('grunt-sass');
 
-//Default Tasks
   grunt.registerTask('default',['shell']);
 
-//production Tasks
-//grunt.registerTask('dist',[..]);
-
-//test tasks
+  grunt.registerTask("dev", ["concurrent:dev"]);
 };
