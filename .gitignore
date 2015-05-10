@@ -1,0 +1,3 @@
+# Libraries and modules should be installed via Grunt.
+libraries
+node_modules

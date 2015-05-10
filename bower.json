@@ -1,0 +1,15 @@
+{
+  "name": "PayslipGenerator",
+  "version": "0.0.0",
+  "authors": [
+    "codesidekick <marty@codesidekick.com>"
+  ],
+  "description": "Payslip generator creates Australian payslips based on yearly income and super contributions.",
+  "license": "MIT",
+  "ignore": [
+  ],
+  "dependencies": {
+    "bootstrap":"latest",
+    "jQuery":"latest"
+  }
+}
