@@ -28,15 +28,21 @@ class PayrollController {
     }
 
     private setUpDateWatcher() {
-        var $scope:PayrollControllerScope = this.$scope;
+        var $scope:PayrollControllerScope = this.$scope,
+            self = this;
 
         $scope.$watch("startDate", function(startDate:Date, oldValue) {
-            if (startDate) {
-                $scope.endDate = getDefaultEndDate(startDate);
+            // Automatically set the end date if it is not already set or the end date is below the start date.
+            if (startDate && (!$scope.endDate || $scope.endDate < startDate)) {
+                $scope.endDate = self.getDefaultEndDate(startDate);
             }
         });
-        $scope.$watch("endDate", function(newValue, oldValue) {
-            console.log(newValue);
+
+        $scope.$watch("endDate", function(endDate:Date, oldValue) {
+            // Ensure the end date is never below the start date.
+            if ($scope.startDate && $scope.startDate > endDate) {
+                $scope.startDate = endDate;
+            }
         });
     }
 
@@ -52,7 +58,7 @@ class PayrollController {
      * @returns {Date}
      *   The end date.
      */
-    private getDefaultEndDate(startDate:Date) {
+    public getDefaultEndDate(startDate:Date) {
         var endDate:Date = new Date(startDate.getTime());
         endDate.setMonth(startDate.getMonth() + 1);
 
@@ -64,5 +70,4 @@ class PayrollController {
 
         return endDate;
     }
-
 }

@@ -6,83 +6,117 @@
     <script src="lib/angular/angular.js"></script>
     <script src="lib/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <script src="js/app.js"></script>
-    <link href="css/styles.css" media="all" rel="stylesheet" />
+    <link href="css/styles.css" media="all" rel="stylesheet"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body ng-app="app">
-<div class="container-fluid">
-    <div class="col-md-4 full-height">
 
+<div class="container">
+    <div class="page-header">
+        <h1>Simple Payslip Calculator
+            <small>by Marton Bodonyi</small>
+        </h1>
     </div>
-    <div class="col-md-8 full-height">
-        <section class="row" ng-controller="PayrollController">
-            <h1>Employee details</h1>
-            <form>
-                <div class="form-group">
-                    <label for="first-name">First name</label>
-                    <input id="first-name" class="form-control" />
+    <div class="row">
+        <div class="col-md-5">
+            <section class="panel panel-default" ng-controller="PayrollController">
+                <div class="panel-heading">
+                    <h1 class="panel-title">Employee details</h1>
                 </div>
-                <div class="form-group">
-                    <label for="last-name">Last name</label>
-                    <input id="last-name" class="form-control" />
-                </div>
-                <div class="form-group">
-                    <label for="annual-salary">Annual salary</label>
-                    <div class="input-group">
-                        <span class="input-group-addon">$</span>
-                        <input id="annual-salary" class="form-control" type="number" />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="super-rate">Super rate</label>
-                    <div class="input-group">
-                        <input id="super-rate" class="form-control" type="number" />
-                        <span class="input-group-addon">%</span>
-                    </div>
-                </div>
-                <div class="form-group" ng-controller="DatePickerController">
-                    <label for="start-date">Start date</label>
-                    <div class="input-group">
-                        <input id="start-date" type="text" class="form-control" data-ng-model="$parent.startDate" datepicker-popup="dd-MMMM-yyyy" ng-focus="open($event)" is-open="isOpen" min-date="minDate" max-date="'2015-06-22'" datepicker-options="options" ng-required="true" close-text="Close" />
-                        <span class="input-group-btn">
-                            <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-                        </span>
-                    </div>
-                </div>
-                <div class="form-group" ng-controller="DatePickerController">
-                    <label for="start-date">End date</label>
-                    <div class="input-group">
-                        <input id="start-date" type="text" class="form-control" data-ng-model="$parent.endDate" datepicker-popup="dd-MMMM-yyyy" ng-focus="open($event)" is-open="isOpen" min-date="minDate" max-date="'2015-06-22'" datepicker-options="options" ng-required="true" close-text="Close" />
-                        <span class="input-group-btn">
-                            <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-                        </span>
-                    </div>
-                </div>
-            </form>
-        </section>
+                <div class="panel-body">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label for="first-name" class="col-sm-3 control-label">First name</label>
 
-        <div ng-controller="KittenController as kitten" class="row">
-            <div class="col-md-3">
-                <form>
-                    <div class="form-group">
-                        <label for="width">Width:</label>
-                        <input id="width" class="form-control" type="number" ng-model="kitten.width" />
-                    </div>
-                    <div class="form-group">
-                        <label for="height">Height:</label>
-                        <input id="height" class="form-control" type="number" ng-model="kitten.height" />
-                    </div>
-                    <p ng-show="kitten.status">{{kitten.status}}</p>
-                </form>
-            </div>
-            <div class="col-md-9">
-                <div class="panel panel-default" ng-show="kitten.imageUrl">
-                    <div class="panel-heading">{{kitten.imageUrl}}</div>
-                    <div class="panel-body">
-                        <img ng-src="{{kitten.imageUrl}}" alt="Kitten" class="img-thumbnail" />
-                    </div>
+                            <div class="col-sm-9">
+                                <input id="first-name" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="last-name" class="col-sm-3 control-label">Last name</label>
+
+                            <div class="col-sm-9">
+                                <input id="last-name" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="annual-salary" class="col-sm-3 control-label">Annual salary</label>
+
+                            <div class="col-sm-9">
+                                <div class="input-group">
+                                    <span class="input-group-addon">$</span>
+                                    <input id="annual-salary" class="form-control" type="number"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="super-rate" class="col-sm-3 control-label">Super rate</label>
+
+                            <div class="col-sm-9">
+                                <div class="input-group">
+                                    <input id="super-rate" class="form-control" type="number"/>
+                                    <span class="input-group-addon">%</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-controller="DatePickerController">
+                            <label for="start-date" class="col-sm-3 control-label">Start date</label>
+
+                            <div class="col-sm-9">
+                                <div class="input-group">
+                                    <input id="start-date" type="text" class="form-control"
+                                           data-ng-model="$parent.startDate"
+                                           datepicker-popup="dd-MMMM-yyyy" ng-focus="open($event)" is-open="isOpen"
+                                           min-date="minDate" max-date="'2015-06-22'" datepicker-options="options"
+                                           ng-required="true" close-text="Close"/>
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="open($event)"><i
+                                    class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-controller="DatePickerController">
+                            <label for="start-date" class="col-sm-3 control-label">End date</label>
+
+                            <div class="col-sm-9">
+                                <div class="input-group">
+                                    <input id="end-date" type="text" class="form-control"
+                                           data-ng-model="$parent.endDate"
+                                           datepicker-popup="dd-MMMM-yyyy" ng-focus="open($event)" is-open="isOpen"
+                                           min-date="minDate" max-date="'2015-06-22'" datepicker-options="options"
+                                           ng-required="true" close-text="Close"/>
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="open($event)"><i
+                                    class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-            </div>
+            </section>
+        </div>
+        <div class="col-md-7">
+            <section class="payslip-result">
+                <h1 class="title">Payslip</h1>
+                <div class="result">
+                    <h2>Gross income</h2>
+                    <div class="well well-sm"></div>
+                </div>
+                <div class="result">
+                    <h2>Income tax</h2>
+                    <div class="well well-sm"></div>
+                </div>
+                <div class="result">
+                    <h2>Net income</h2>
+                    <div class="well well-sm"></div>
+                </div>
+                <div class="result">
+                    <h2>Super</h2>
+                    <div class="well well-sm"></div>
+                </div>
+            </section>
         </div>
     </div>
 </div>

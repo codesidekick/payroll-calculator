@@ -22,7 +22,19 @@ declare class PayrollController {
     constructor($scope: PayrollControllerScope);
     private setUp();
     private setUpDateWatcher();
-    private getDefaultEndDate(startDate);
+    /**
+     * Get an end date exactly one month from the given start date.
+     *
+     * Compensates for shorter months, for example if the 31st of January is chosen as a start date, the 28th of
+     * February (or 29th in a leap year) will be chosen as the end date.
+     *
+     * @param {Date} startDate
+     *   The start date to calculate from.
+     *
+     * @returns {Date}
+     *   The end date.
+     */
+    getDefaultEndDate(startDate: Date): Date;
 }
 /**
  * @file
@@ -73,21 +85,5 @@ declare class DatePickerController {
      *   HTML Dom event.
      */
     close: ($event: any) => void;
-}
-declare class KittenController {
-    private $scope;
-    private debounce;
-    constructor($scope: ng.IScope, debounce: IDebounce);
-    width: number;
-    height: number;
-    status: string;
-    imageUrl: string;
-    private watchForSizeChanges();
-    private updateImageUrl();
-    private getImageUrl();
-}
-declare function debounceFactory($timeout: ng.ITimeoutService): IDebounce;
-interface IDebounce {
-    (func: Function, threshold: number, execAsap?: boolean): () => void;
 }
 declare var app: ng.IModule;
