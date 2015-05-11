@@ -1,5 +1,8 @@
 /// <reference path="typings/angularjs/angular.d.ts" />
 /// <reference path="typings/jquery/jquery.d.ts" />
+/// <reference path="typings/angular-ui-bootstrap/angular-ui-bootstrap.d.ts" />
+/// <reference path="Controllers/PayrollController.ts" />
+/// <reference path="Controllers/DatePickerController.ts" />
 
 class KittenController {
 
@@ -89,6 +92,11 @@ interface IDebounce {
 }
 
 // Define the Angular module for our application.
-var app = angular.module("app", []);
-app.controller("KittenController", ["$scope", "debounce", KittenController]);
+var app = angular.module("app", ["ui.bootstrap"]);
 
+// Define controllers used in the app.
+app.controller("KittenController", ["$scope", "debounce", KittenController]);
+app.factory("debounce", ["$timeout", debounceFactory]);
+
+app.controller("PayrollController", ["$scope", PayrollController]);
+app.controller("DatePickerController", ["$scope", DatePickerController]);

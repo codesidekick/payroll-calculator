@@ -9,13 +9,11 @@
   "ignore": [
   ],
   "dependencies": {
-    "bootstrap-sass":"latest",
-    "jQuery":"latest",
-    "angular":"latest"
+    "bootstrap-sass": "latest",
+    "jQuery": "latest",
+    "angular": "latest",
+    "angular-bootstrap": "latest"
   },
   "exportsOverride": {
-    "bootstrap-sass": {
-      "js": "dist/lib/angular/*.js"
-    }
   }
 }

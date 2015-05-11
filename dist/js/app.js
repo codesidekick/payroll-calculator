@@ -1,5 +1,51 @@
+/**
+ * @file
+ * Payroll controller TypeScript file.
+ *
+ * Included automatically by app.ts before compilation.
+ */
+/**
+ * Payroll controller.
+ */
+var PayrollController = (function () {
+    function PayrollController($scope) {
+        this.$scope = $scope;
+    }
+    return PayrollController;
+})();
+/**
+ * @file
+ * Date picker controller TypeScript file.
+ *
+ * Included automatically by app.ts before compilation.
+ */
+/**
+ * Payroll controller.
+ */
+var DatePickerController = (function () {
+    function DatePickerController($scope) {
+        this.$scope = $scope;
+        this.setUp();
+    }
+    DatePickerController.prototype.setUp = function () {
+        var $scope = this.$scope;
+        $scope.options = {
+            formatYear: 'yy',
+            startingDay: 1,
+        };
+        $scope.open = function ($event) {
+            $event.preventDefault();
+            $event.stopPropagation();
+            $scope.isOpen = true;
+        };
+    };
+    return DatePickerController;
+})();
 /// <reference path="typings/angularjs/angular.d.ts" />
 /// <reference path="typings/jquery/jquery.d.ts" />
+/// <reference path="typings/angular-ui-bootstrap/angular-ui-bootstrap.d.ts" />
+/// <reference path="Controllers/PayrollController.ts" />
+/// <reference path="Controllers/DatePickerController.ts" />
 var KittenController = (function () {
     function KittenController($scope, debounce) {
         this.$scope = $scope;
@@ -73,7 +119,10 @@ function debounceFactory($timeout) {
     };
 }
 // Define the Angular module for our application.
-var app = angular.module("app", []);
+var app = angular.module("app", ["ui.bootstrap"]);
+// Define controllers used in the app.
 app.controller("KittenController", ["$scope", "debounce", KittenController]);
 app.factory("debounce", ["$timeout", debounceFactory]);
+app.controller("PayrollController", ["$scope", PayrollController]);
+app.controller("DatePickerController", ["$scope", DatePickerController]);
 //# sourceMappingURL=app.js.map

@@ -1,3 +1,22 @@
-body {
-  background: black;
-}
+// Import selected bootstrap components.
+@import 'partials/_variables.scss';
+
+@import "../../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins";
+@import "../../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/normalize";
+@import "../../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/print";
+@import "../../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/glyphicons";
+@import '../../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/theme';
+@import "../../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/scaffolding";
+@import "../../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/type";
+@import "../../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/code";
+@import "../../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/grid";
+//@import "../../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/tables";
+@import "../../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/forms";
+@import "../../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/input-groups";
+@import "../../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/buttons";
+
+@import "../../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/navs";
+@import "../../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/navbar";
+
+// Import partials used by payslip app.
+@import 'partials/_base.scss';

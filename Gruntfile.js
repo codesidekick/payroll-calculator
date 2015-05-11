@@ -5,7 +5,7 @@ module.exports = function(grunt){
     shell: {
       multiple: {
         command: [
-          'tsd reinstall --save --overwrite',
+          'tsd reinstall --save',
           'grunt bower:install'
         ].join('&&')
       }
