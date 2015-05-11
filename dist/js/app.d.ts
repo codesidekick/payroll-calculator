@@ -7,34 +7,24 @@
  *
  * Included automatically by app.ts before compilation.
  */
-/**
- * Allowed scope for the Angular controller.
- */
-interface PayrollControllerScope extends ng.IScope {
-    startDate: Date;
-    endDate: Date;
-}
-/**
- * Payroll controller.
- */
-declare class PayrollController {
-    private $scope;
-    constructor($scope: PayrollControllerScope);
-    private setUp();
-    private setUpDateWatcher();
+declare module SimplePayslip {
     /**
-     * Get an end date exactly one month from the given start date.
-     *
-     * Compensates for shorter months, for example if the 31st of January is chosen as a start date, the 28th of
-     * February (or 29th in a leap year) will be chosen as the end date.
-     *
-     * @param {Date} startDate
-     *   The start date to calculate from.
-     *
-     * @returns {Date}
-     *   The end date.
+     * Allowed scope for the Angular controller.
      */
-    getDefaultEndDate(startDate: Date): Date;
+    interface PayrollControllerScope extends angular.IScope {
+        startDate: Date;
+        endDate: Date;
+    }
+    /**
+     * Payroll controller.
+     */
+    class PayrollController {
+        private $scope;
+        private taxUtility;
+        constructor($scope: PayrollControllerScope, taxUtility: TaxInterface);
+        private setUp();
+        private setUpDateWatcher();
+    }
 }
 /**
  * @file
@@ -42,48 +32,156 @@ declare class PayrollController {
  *
  * Included automatically by app.ts before compilation.
  */
-/**
- * Allowed scope for the Angular controller.
- */
-interface DatePickerControllerScope extends ng.IScope {
-    options?: angular.ui.bootstrap.IDatepickerConfig;
-    open?: Function;
-    close?: Function;
-    isOpen?: boolean;
-    date: Date;
+declare module SimplePayslip {
+    /**
+     * Allowed scope for the Angular controller.
+     */
+    interface DatePickerControllerScope extends angular.IScope {
+        options?: angular.ui.bootstrap.IDatepickerConfig;
+        open?: Function;
+        close?: Function;
+        isOpen?: boolean;
+        date: Date;
+    }
+    /**
+     * Payroll controller.
+     */
+    class DatePickerController {
+        private $scope;
+        /**
+         * Date picker configuration for Angular-Bootstrap bridge.
+         *
+         * @type angular.ui.bootstrap.IDatepickerConfig
+         */
+        options: angular.ui.bootstrap.IDatepickerConfig;
+        /**
+         * {@inheritdoc}
+         */
+        constructor($scope: DatePickerControllerScope);
+        /**
+         * Set up the date picker and scope variables.
+         */
+        private setUp();
+        /**
+         * Open the date picker.
+         *
+         * @param object $event
+         *   HTML Dom event.
+         */
+        open: ($event: any) => void;
+        /**
+         * Close the date picker.
+         *
+         * @param object $event
+         *   HTML Dom event.
+         */
+        close: ($event: any) => void;
+    }
 }
 /**
- * Payroll controller.
+ * @file
+ * Payroll tax interfaces.
  */
-declare class DatePickerController {
-    private $scope;
+declare module SimplePayslip {
+    enum PayPeriod {
+        Week = 52,
+        Month = 12,
+    }
+    interface TaxInterface {
+        /**
+         *
+         * @param {Array} taxTables
+         */
+        setTaxTables: (taxTables: TaxTableItem[]) => void;
+        /**
+         *
+         * @param payPeriod
+         */
+        setPayPeriod: (payPeriod: PayPeriod) => void;
+        /**
+         *
+         *
+         * @param {number} salary
+         *
+         * @return {number}
+         *   The salary.
+         */
+        setAnnualSalary: (salary: number) => void;
+        /**
+         *
+         * @param startDate
+         */
+        setStartDate: (startDate: Date) => void;
+        /**
+         *
+         */
+        getGrossIncome: () => number;
+        /**
+         *
+         */
+        getIncomeTax: () => number;
+        /**
+         *
+         */
+        getNetIncome: () => number;
+    }
+}
+declare module SimplePayslip {
+    class TaxTableItem {
+        protected bracketStart: number;
+        protected bracketEnd: number;
+        protected percentageTax: number;
+        constructor(bracketStart: number, bracketEnd: number, percentageTax: number);
+        /**
+         *
+         * @param annualIncome
+         */
+        getTaxedAmount(annualIncome: number): number;
+    }
+}
+declare module SimplePayslip {
     /**
-     * Date picker configuration for Angular-Bootstrap bridge.
-     *
-     * @type angular.ui.bootstrap.IDatepickerConfig
+     * Australian Tax Class Calculator.
      */
-    options: angular.ui.bootstrap.IDatepickerConfig;
-    /**
-     * {@inheritdoc}
-     */
-    constructor($scope: DatePickerControllerScope);
-    /**
-     * Set up the date picker and scope variables.
-     */
-    private setUp();
-    /**
-     * Open the date picker.
-     *
-     * @param object $event
-     *   HTML Dom event.
-     */
-    open: ($event: any) => void;
-    /**
-     * Close the date picker.
-     *
-     * @param object $event
-     *   HTML Dom event.
-     */
-    close: ($event: any) => void;
+    class TaxAustralia implements TaxInterface {
+        private annualSalary;
+        private startDate;
+        private payPeriod;
+        private taxTables;
+        setTaxTables(taxTables: TaxTableItem[]): void;
+        constructor();
+        setUp(): void;
+        /**
+         *
+         * @param {PayPeriod} payPeriod
+         */
+        setPayPeriod(payPeriod: PayPeriod): void;
+        /**
+         *
+         *
+         * @param {number} salary
+         *
+         * @return {number}
+         *   The salary.
+         */
+        setAnnualSalary(salary: number): void;
+        /**
+         *
+         * @param startDate
+         */
+        setStartDate(startDate: Date): void;
+        /**
+         *
+         */
+        getGrossIncome(): number;
+        /**
+         *
+         */
+        getIncomeTax(): number;
+        /**
+         *
+         */
+        getNetIncome(): number;
+    }
 }
 declare var app: ng.IModule;

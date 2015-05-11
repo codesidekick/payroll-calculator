@@ -4,74 +4,75 @@
  *
  * Included automatically by app.ts before compilation.
  */
-
-/**
- * Allowed scope for the Angular controller.
- */
-interface DatePickerControllerScope extends ng.IScope {
-    options?: angular.ui.bootstrap.IDatepickerConfig;
-    open?: Function;
-    close?: Function;
-    isOpen?: boolean;
-    date: Date;
-}
-
-/**
- * Payroll controller.
- */
-class DatePickerController {
-
+module SimplePayslip {
     /**
-     * Date picker configuration for Angular-Bootstrap bridge.
-     *
-     * @type angular.ui.bootstrap.IDatepickerConfig
+     * Allowed scope for the Angular controller.
      */
-    options: angular.ui.bootstrap.IDatepickerConfig = {
-        formatYear: 'yy',
-        startingDay: 1,
+    export interface DatePickerControllerScope extends angular.IScope {
+        options?: angular.ui.bootstrap.IDatepickerConfig;
+        open?: Function;
+        close?: Function;
+        isOpen?: boolean;
+        date: Date;
     }
 
     /**
-     * {@inheritdoc}
+     * Payroll controller.
      */
-    constructor(private $scope:DatePickerControllerScope) {
-        this.setUp();
-    }
+    export class DatePickerController {
 
-    /**
-     * Set up the date picker and scope variables.
-     */
-    private setUp() {
-        var $scope:DatePickerControllerScope = this.$scope;
+        /**
+         * Date picker configuration for Angular-Bootstrap bridge.
+         *
+         * @type angular.ui.bootstrap.IDatepickerConfig
+         */
+        options:angular.ui.bootstrap.IDatepickerConfig = {
+            formatYear: 'yy',
+            startingDay: 1
+        };
 
-        $scope.options = this.options;
-        $scope.open = this.open;
-        $scope.close = this.close;
-    }
+        /**
+         * {@inheritdoc}
+         */
+        constructor(private $scope:DatePickerControllerScope) {
+            this.setUp();
+        }
 
-    /**
-     * Open the date picker.
-     *
-     * @param object $event
-     *   HTML Dom event.
-     */
-    public open = function($event) {
-        $event.preventDefault();
-        $event.stopPropagation();
+        /**
+         * Set up the date picker and scope variables.
+         */
+        private setUp() {
+            var $scope:DatePickerControllerScope = this.$scope;
 
-        this.isOpen = true;
-    }
+            $scope.options = this.options;
+            $scope.open = this.open;
+            $scope.close = this.close;
+        }
 
-    /**
-     * Close the date picker.
-     *
-     * @param object $event
-     *   HTML Dom event.
-     */
-    public close = function($event) {
-        $event.preventDefault();
-        $event.stopPropagation();
+        /**
+         * Open the date picker.
+         *
+         * @param object $event
+         *   HTML Dom event.
+         */
+        public open = function ($event) {
+            $event.preventDefault();
+            $event.stopPropagation();
 
-        this.isOpen = false;
+            this.isOpen = true;
+        };
+
+        /**
+         * Close the date picker.
+         *
+         * @param object $event
+         *   HTML Dom event.
+         */
+        public close = function ($event) {
+            $event.preventDefault();
+            $event.stopPropagation();
+
+            this.isOpen = false;
+        };
     }
 }
