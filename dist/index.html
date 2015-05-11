@@ -43,7 +43,7 @@
                 <div class="form-group" ng-controller="DatePickerController">
                     <label for="start-date">Start date</label>
                     <div class="input-group">
-                        <input id="start-date" type="text" class="form-control" datepicker-popup="dd-MMMM-yyyy" ng-model="dt" is-open="isOpen" min-date="minDate" max-date="'2015-06-22'" datepicker-options="options" ng-required="true" close-text="Close" />
+                        <input id="start-date" type="text" class="form-control" data-ng-model="$parent.startDate" datepicker-popup="dd-MMMM-yyyy" ng-focus="open($event)" is-open="isOpen" min-date="minDate" max-date="'2015-06-22'" datepicker-options="options" ng-required="true" close-text="Close" />
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                         </span>
@@ -52,7 +52,7 @@
                 <div class="form-group" ng-controller="DatePickerController">
                     <label for="start-date">End date</label>
                     <div class="input-group">
-                        <input id="start-date" type="text" class="form-control" datepicker-popup="dd-MMMM-yyyy" ng-model="dt" is-open="isOpen" min-date="minDate" max-date="'2015-06-22'" datepicker-options="options" ng-required="true" close-text="Close" />
+                        <input id="start-date" type="text" class="form-control" data-ng-model="$parent.endDate" datepicker-popup="dd-MMMM-yyyy" ng-focus="open($event)" is-open="isOpen" min-date="minDate" max-date="'2015-06-22'" datepicker-options="options" ng-required="true" close-text="Close" />
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                         </span>

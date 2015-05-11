@@ -10,7 +10,31 @@
 var PayrollController = (function () {
     function PayrollController($scope) {
         this.$scope = $scope;
+        this.setUp();
     }
+    PayrollController.prototype.setUp = function () {
+        this.setUpDateWatcher();
+    };
+    PayrollController.prototype.setUpDateWatcher = function () {
+        var $scope = this.$scope;
+        $scope.$watch("startDate", function (startDate, oldValue) {
+            if (startDate) {
+                var endDate = new Date(startDate.getTime());
+                endDate.setMonth(startDate.getMonth() + 1);
+                // Reset to the last day of the month for circumstances in which the end day is over the next months
+                // bounds.
+                if (endDate.getMonth() > startDate.getMonth() + 1) {
+                    endDate.setMonth(endDate.getMonth(), 0);
+                }
+                $scope.endDate = endDate;
+            }
+        });
+        $scope.$watch("endDate", function (newValue, oldValue) {
+            console.log(newValue);
+        });
+    };
+    PayrollController.prototype.getDefaultEndDate = function (startDate) {
+    };
     return PayrollController;
 })();
 /**
@@ -23,21 +47,52 @@ var PayrollController = (function () {
  * Payroll controller.
  */
 var DatePickerController = (function () {
+    /**
+     * {@inheritdoc}
+     */
     function DatePickerController($scope) {
         this.$scope = $scope;
-        this.setUp();
-    }
-    DatePickerController.prototype.setUp = function () {
-        var $scope = this.$scope;
-        $scope.options = {
+        /**
+         * Date picker configuration for Angular-Bootstrap bridge.
+         *
+         * @type angular.ui.bootstrap.IDatepickerConfig
+         */
+        this.options = {
             formatYear: 'yy',
             startingDay: 1,
         };
-        $scope.open = function ($event) {
+        /**
+         * Open the date picker.
+         *
+         * @param object $event
+         *   HTML Dom event.
+         */
+        this.open = function ($event) {
             $event.preventDefault();
             $event.stopPropagation();
-            $scope.isOpen = true;
+            this.isOpen = true;
         };
+        /**
+         * Close the date picker.
+         *
+         * @param object $event
+         *   HTML Dom event.
+         */
+        this.close = function ($event) {
+            $event.preventDefault();
+            $event.stopPropagation();
+            this.isOpen = false;
+        };
+        this.setUp();
+    }
+    /**
+     * Set up the date picker and scope variables.
+     */
+    DatePickerController.prototype.setUp = function () {
+        var $scope = this.$scope;
+        $scope.options = this.options;
+        $scope.open = this.open;
+        $scope.close = this.close;
     };
     return DatePickerController;
 })();

@@ -11,6 +11,8 @@
  * Allowed scope for the Angular controller.
  */
 interface PayrollControllerScope extends ng.IScope {
+    startDate: Date;
+    endDate: Date;
 }
 /**
  * Payroll controller.
@@ -18,6 +20,9 @@ interface PayrollControllerScope extends ng.IScope {
 declare class PayrollController {
     private $scope;
     constructor($scope: PayrollControllerScope);
+    private setUp();
+    private setUpDateWatcher();
+    private getDefaultEndDate(startDate);
 }
 /**
  * @file
@@ -31,15 +36,43 @@ declare class PayrollController {
 interface DatePickerControllerScope extends ng.IScope {
     options?: angular.ui.bootstrap.IDatepickerConfig;
     open?: Function;
+    close?: Function;
     isOpen?: boolean;
+    date: Date;
 }
 /**
  * Payroll controller.
  */
 declare class DatePickerController {
     private $scope;
+    /**
+     * Date picker configuration for Angular-Bootstrap bridge.
+     *
+     * @type angular.ui.bootstrap.IDatepickerConfig
+     */
+    options: angular.ui.bootstrap.IDatepickerConfig;
+    /**
+     * {@inheritdoc}
+     */
     constructor($scope: DatePickerControllerScope);
+    /**
+     * Set up the date picker and scope variables.
+     */
     private setUp();
+    /**
+     * Open the date picker.
+     *
+     * @param object $event
+     *   HTML Dom event.
+     */
+    open: ($event: any) => void;
+    /**
+     * Close the date picker.
+     *
+     * @param object $event
+     *   HTML Dom event.
+     */
+    close: ($event: any) => void;
 }
 declare class KittenController {
     private $scope;
