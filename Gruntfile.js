@@ -6,21 +6,23 @@ module.exports = function(grunt){
       multiple: {
         command: [
           'tsd reinstall --save',
-          'grunt bower:install'
+          'grunt bower:install',
+          'tsc --declaration src/ts/app/**/*.ts --outDir src/ts/typings/app'
         ].join('&&')
       }
     },
     typescript: {
       base: {
-        src: ['src/ts/*.ts'],
-        dest: 'dist/js/app.js',
+        src: ['src/ts/**/*.ts'],
+        dest: 'dist/js',
         options: {
           module: 'amd', //or commonjs
           target: 'es5', //or es3
           basePath: 'src/ts',
           sourceMap: true,
           declaration: true,
-          watch: true
+          watch: true,
+          references: 'typings/**/*.d.ts'
         }
       }
     },
@@ -34,6 +36,9 @@ module.exports = function(grunt){
         }
       }
     },
+    qunit: {
+      all: ['dist/tests.html']
+    },
     watch: {
       css: {
         files: ['src/scss/**/*.scss'],
@@ -42,6 +47,10 @@ module.exports = function(grunt){
       typescript: {
         files: ['src/ts/**/*.ts'],
         tasks: ['typescript']
+      },
+      qunit: {
+        files: ['src/ts/**/*.ts'],
+        tasks: ['qunit']
       }
     },
     concurrent: {
@@ -49,7 +58,7 @@ module.exports = function(grunt){
         logConcurrentOutput: true
       },
       dev: {
-        tasks: ["watch:css", "watch:typescript"]
+        tasks: ["watch:css", "watch:typescript", "watch:qunit"]
       }
     },
     bower: {
@@ -67,8 +76,10 @@ module.exports = function(grunt){
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-concurrent');
   grunt.loadNpmTasks('grunt-sass');
+  grunt.loadNpmTasks('grunt-contrib-qunit');
 
-  grunt.registerTask('default',['shell']);
+  grunt.registerTask('default',['shell', 'qunit']);
+  grunt.registerTask('test', ['qunit']);
 
   grunt.registerTask("dev", ["concurrent:dev"]);
 };

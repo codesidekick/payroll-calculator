@@ -1,10 +1,7 @@
-module SimplePayslip {
-    export class TaxTableItem {
-        protected bracketStart:number;
-        protected bracketEnd:number;
-        protected percentageTax:number;
-
-        public constructor(bracketStart:number, bracketEnd:number, percentageTax:number) {
+var SimplePayslip;
+(function (SimplePayslip) {
+    var TaxTableItem = (function () {
+        function TaxTableItem(bracketStart, bracketEnd, percentageTax) {
             this.bracketStart = bracketStart;
             this.bracketEnd = bracketEnd;
             this.percentageTax = percentageTax;
@@ -13,20 +10,19 @@ module SimplePayslip {
          *
          * @param annualIncome
          */
-        public getTaxedAmount(annualIncome:number):number {
-            var taxedAmount:number = 0;
-
+        TaxTableItem.prototype.getTaxedAmount = function (annualIncome) {
+            var taxedAmount = 0;
             if (annualIncome > this.bracketStart) {
-                var bracketAmount:number = annualIncome - this.bracketStart;
-
+                var bracketAmount = annualIncome - this.bracketStart;
                 if (this.bracketEnd != null) {
                     bracketAmount -= annualIncome - this.bracketEnd;
                 }
-
                 taxedAmount = bracketAmount * (this.percentageTax / 100);
             }
-
             return taxedAmount;
-        }
-    }
-}
+        };
+        return TaxTableItem;
+    })();
+    SimplePayslip.TaxTableItem = TaxTableItem;
+})(SimplePayslip || (SimplePayslip = {}));
+//# sourceMappingURL=TaxTableItem.js.map

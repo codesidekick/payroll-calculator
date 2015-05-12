@@ -10,10 +10,9 @@
   ],
   "dependencies": {
     "bootstrap-sass": "latest",
-    "jQuery": "latest",
+    "jQuery": "2.1",
     "angular": "latest",
-    "angular-bootstrap": "latest"
-  },
-  "exportsOverride": {
+    "angular-bootstrap": "latest",
+    "qunit": "latest"
   }
 }

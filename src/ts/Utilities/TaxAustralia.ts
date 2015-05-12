@@ -1,6 +1,3 @@
-/// <reference path="TaxInterface.ts" />
-/// <reference path="TaxTableItem.ts" />
-
 module SimplePayslip {
     /**
      * Australian Tax Class Calculator.
@@ -12,22 +9,17 @@ module SimplePayslip {
         private taxTables:TaxTableItem[];
         private superRate:number;
 
-        public setTaxTables(taxTables:TaxTableItem[]):void {
-            this.taxTables = taxTables;
-        }
-
         public constructor() {
             this.setUp();
         }
 
         public setUp() {
-            var taxTables:TaxTableItem[] = [];
-            taxTables.push(new TaxTableItem(18200, 37000, 19));
-            taxTables.push(new TaxTableItem(37000, 80000, 32.5));
-            taxTables.push(new TaxTableItem(80000, 180000, 37));
-            taxTables.push(new TaxTableItem(180000, null, 45));
-
-            this.setTaxTables(taxTables);
+            this.taxTables = [
+                new TaxTableItem(18200, 37000, 19),
+                new TaxTableItem(37000, 80000, 32.5),
+                new TaxTableItem(80000, 180000, 37),
+                new TaxTableItem(180000, null, 45),
+            ];
         }
 
         /**
@@ -77,14 +69,6 @@ module SimplePayslip {
             return TaxAustralia.round(this.annualSalary / this.payPeriod);
         }
 
-        public getIncomeTax():number {
-            var incomeTax:number = this.getTotalIncomeTax();
-
-            incomeTax /= this.payPeriod;
-
-            return TaxAustralia.round(incomeTax);
-        }
-
         /**
          *
          */
@@ -96,6 +80,14 @@ module SimplePayslip {
 
                 incomeTax += taxTableItem.getTaxedAmount(this.annualSalary);
             }
+
+            return TaxAustralia.round(incomeTax);
+        }
+
+        public getIncomeTax():number {
+            var incomeTax:number = this.getTotalIncomeTax();
+
+            incomeTax /= this.payPeriod;
 
             return TaxAustralia.round(incomeTax);
         }

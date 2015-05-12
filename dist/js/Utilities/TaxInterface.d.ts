@@ -2,21 +2,17 @@
  * @file
  * Payroll tax interfaces.
  */
-
-module SimplePayslip {
-    export enum PayPeriod {
+declare module SimplePayslip {
+    enum PayPeriod {
         Week = 52,
-        Month = 12
+        Month = 12,
     }
-
-    export interface TaxInterface {
-
+    interface TaxInterface {
         /**
          *
          * @param payPeriod
          */
-        setPayPeriod: (payPeriod:PayPeriod) => void;
-
+        setPayPeriod: (payPeriod: PayPeriod) => void;
         /**
          *
          *
@@ -25,8 +21,7 @@ module SimplePayslip {
          * @return {number}
          *   The salary.
          */
-        setAnnualSalary: (salary:number) => void;
-
+        setAnnualSalary: (salary: number) => void;
         /**
          *
          *
@@ -35,30 +30,24 @@ module SimplePayslip {
          * @return {number}
          *   The salary.
          */
-        setSuperRate: (salary:number) => void;
-
+        setSuperRate: (salary: number) => void;
         /**
          *
          * @param startDate
          */
-        setStartDate: (startDate:Date) => void;
-
+        setStartDate: (startDate: Date) => void;
         /**
          *
          */
         getGrossIncome: () => number;
-
         /**
          *
          */
         getIncomeTax: () => number;
-
         /**
          *
          */
         getNetIncome: () => number;
-
         getSuper: () => number;
     }
-
 }
