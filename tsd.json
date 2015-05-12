@@ -13,6 +13,9 @@
     },
     "angular-ui-bootstrap/angular-ui-bootstrap.d.ts": {
       "commit": "843203a2bfbe3cc248672be4b1b4a7ff2dd93bc0"
+    },
+    "qunit/qunit.d.ts": {
+      "commit": "843203a2bfbe3cc248672be4b1b4a7ff2dd93bc0"
     }
   }
 }
