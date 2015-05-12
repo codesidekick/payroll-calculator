@@ -64,19 +64,10 @@
                             <strong class="col-sm-3 control-label">Start date</strong>
 
                             <div class="col-sm-9">
-                                <div class="input-group">
-
-                                    <span class="form-control">{{startDate | date:'MMMM yyyy'}}</span>
-                                    <span class="input-group-btn">
-                            <button type="button" class="btn btn-default"><i
-                                    class="glyphicon glyphicon-calendar"></i></button>
-                        </span>
-
-
-                                </div>
                                 <datepicker data-ng-model="startDate" min-mode="month" datepicker-mode="'month'"
-                                            min-date=""></datepicker>
+                                            min-date="" class="payroll-date-picker"></datepicker>
                             </div>
+
 
                         </div>
                     </form>
@@ -86,6 +77,7 @@
         <div class="col-md-7">
             <section class="payslip-result table-responsive">
                 <h1 class="title page-header">Payslip</h1>
+
                 <div class="payroll-user-icon">
                     <i class="glyphicon glyphicon-user"></i>
                 </div>
@@ -96,53 +88,53 @@
                     </h2>
                     {{startDate | date:'MMMM yyyy'}}
                 </div>
-                    <table class="table payslip-table">
-                        <caption>Take home pay</caption>
+                <table class="table payslip-table">
+                    <caption>Take home pay</caption>
 
-                        <thead>
-                        <tr>
-                            <th>Item</th>
-                            <th class="payslip-table__amount-column">Amount</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>Gross income</td>
-                            <td class="payslip-table__amount-column">${{grossIncomeResult|number:2}}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Income tax</td>
-                            <td class="payslip-table__amount-column">${{incomeTaxResult|number:2}}</td>
-                        </tr>
-                        <tr class="active">
-                            <td><strong>Net income</strong></td>
-                            <td class="payslip-table__amount-column">
-                                <strong>
-                                    ${{netIncomeResult|number:2}}
-                                </strong>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <table class="table payslip-table">
-                        <caption>Superannuation</caption>
+                    <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th class="payslip-table__amount-column">Amount</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Gross income</td>
+                        <td class="payslip-table__amount-column">${{grossIncomeResult|number:2}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Income tax</td>
+                        <td class="payslip-table__amount-column">${{incomeTaxResult|number:2}}</td>
+                    </tr>
+                    <tr class="active">
+                        <td><strong>Net income</strong></td>
+                        <td class="payslip-table__amount-column">
+                            <strong>
+                                ${{netIncomeResult|number:2}}
+                            </strong>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <table class="table payslip-table">
+                    <caption>Superannuation</caption>
 
-                        <thead>
-                        <tr>
-                            <th>Item</th>
-                            <th class="payslip-table__amount-column">Amount</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>Contribution payment</td>
-                            <td class="payslip-table__amount-column"><span>$</span>
-                                <span>{{superResult|number:2}}</span>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
+                    <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th class="payslip-table__amount-column">Amount</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Contribution payment</td>
+                        <td class="payslip-table__amount-column"><span>$</span>
+                            <span>{{superResult|number:2}}</span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
 
 
             </section>
