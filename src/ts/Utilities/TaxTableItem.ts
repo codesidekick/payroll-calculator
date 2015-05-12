@@ -27,7 +27,7 @@ module SimplePayslip {
                 taxedAmount = bracketAmount * (this.percentageTax / 100);
             }
 
-            return Math.round(taxedAmount);
+            return taxedAmount;
         }
     }
 }

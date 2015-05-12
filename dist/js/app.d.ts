@@ -13,7 +13,15 @@ declare module SimplePayslip {
      */
     interface PayrollControllerScope extends angular.IScope {
         startDate: Date;
-        endDate: Date;
+        annualSalary: number;
+        superRate: number;
+        grossIncomeResult: number;
+        incomeTaxResult: number;
+        netIncomeResult: number;
+        superResult: number;
+        dateOptions: angular.ui.bootstrap.IDatepickerConfig;
+        firstName: string;
+        lastName: string;
     }
     /**
      * Payroll controller.
@@ -23,59 +31,8 @@ declare module SimplePayslip {
         private taxUtility;
         constructor($scope: PayrollControllerScope, taxUtility: TaxInterface);
         private setUp();
-        private setUpDateWatcher();
-    }
-}
-/**
- * @file
- * Date picker controller TypeScript file.
- *
- * Included automatically by app.ts before compilation.
- */
-declare module SimplePayslip {
-    /**
-     * Allowed scope for the Angular controller.
-     */
-    interface DatePickerControllerScope extends angular.IScope {
-        options?: angular.ui.bootstrap.IDatepickerConfig;
-        open?: Function;
-        close?: Function;
-        isOpen?: boolean;
-        date: Date;
-    }
-    /**
-     * Payroll controller.
-     */
-    class DatePickerController {
-        private $scope;
-        /**
-         * Date picker configuration for Angular-Bootstrap bridge.
-         *
-         * @type angular.ui.bootstrap.IDatepickerConfig
-         */
-        options: angular.ui.bootstrap.IDatepickerConfig;
-        /**
-         * {@inheritdoc}
-         */
-        constructor($scope: DatePickerControllerScope);
-        /**
-         * Set up the date picker and scope variables.
-         */
-        private setUp();
-        /**
-         * Open the date picker.
-         *
-         * @param object $event
-         *   HTML Dom event.
-         */
-        open: ($event: any) => void;
-        /**
-         * Close the date picker.
-         *
-         * @param object $event
-         *   HTML Dom event.
-         */
-        close: ($event: any) => void;
+        private setUpWatchers();
+        updateValues(): void;
     }
 }
 /**
@@ -109,6 +66,15 @@ declare module SimplePayslip {
         setAnnualSalary: (salary: number) => void;
         /**
          *
+         *
+         * @param {number} salary
+         *
+         * @return {number}
+         *   The salary.
+         */
+        setSuperRate: (salary: number) => void;
+        /**
+         *
          * @param startDate
          */
         setStartDate: (startDate: Date) => void;
@@ -124,6 +90,7 @@ declare module SimplePayslip {
          *
          */
         getNetIncome: () => number;
+        getSuper: () => number;
     }
 }
 declare module SimplePayslip {
@@ -148,6 +115,7 @@ declare module SimplePayslip {
         private startDate;
         private payPeriod;
         private taxTables;
+        private superRate;
         setTaxTables(taxTables: TaxTableItem[]): void;
         constructor();
         setUp(): void;
@@ -167,6 +135,15 @@ declare module SimplePayslip {
         setAnnualSalary(salary: number): void;
         /**
          *
+         *
+         * @param {number} superRate
+         *
+         * @return {number}
+         *   The salary.
+         */
+        setSuperRate(superRate: number): void;
+        /**
+         *
          * @param startDate
          */
         setStartDate(startDate: Date): void;
@@ -174,14 +151,17 @@ declare module SimplePayslip {
          *
          */
         getGrossIncome(): number;
-        /**
-         *
-         */
         getIncomeTax(): number;
         /**
          *
          */
+        private getTotalIncomeTax();
+        /**
+         *
+         */
         getNetIncome(): number;
+        getSuper(): number;
+        private static round(amount);
     }
 }
 declare var app: ng.IModule;

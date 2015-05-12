@@ -17,9 +17,9 @@
             <small>by Marton Bodonyi</small>
         </h1>
     </div>
-    <div class="row">
+    <div class="row" ng-controller="PayrollController">
         <div class="col-md-5">
-            <section class="panel panel-default" ng-controller="PayrollController">
+            <section class="panel panel-default">
                 <div class="panel-heading">
                     <h1 class="panel-title">Employee details</h1>
                 </div>
@@ -29,14 +29,14 @@
                             <label for="first-name" class="col-sm-3 control-label">First name</label>
 
                             <div class="col-sm-9">
-                                <input id="first-name" class="form-control"/>
+                                <input id="first-name" class="form-control" ng-model="firstName"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="last-name" class="col-sm-3 control-label">Last name</label>
 
                             <div class="col-sm-9">
-                                <input id="last-name" class="form-control"/>
+                                <input id="last-name" class="form-control" ng-model="lastName"/>
                             </div>
                         </div>
                         <div class="form-group">
@@ -45,7 +45,8 @@
                             <div class="col-sm-9">
                                 <div class="input-group">
                                     <span class="input-group-addon">$</span>
-                                    <input id="annual-salary" class="form-control" type="number"/>
+                                    <input id="annual-salary" ng-model="annualSalary" class="form-control"
+                                           type="number"/>
                                 </div>
                             </div>
                         </div>
@@ -54,68 +55,96 @@
 
                             <div class="col-sm-9">
                                 <div class="input-group">
-                                    <input id="super-rate" class="form-control" type="number"/>
+                                    <input id="super-rate" ng-model="superRate" class="form-control" type="number"/>
                                     <span class="input-group-addon">%</span>
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group" ng-controller="DatePickerController">
-                            <label for="start-date" class="col-sm-3 control-label">Start date</label>
+                        <div class="form-group">
+                            <strong class="col-sm-3 control-label">Start date</strong>
 
                             <div class="col-sm-9">
                                 <div class="input-group">
-                                    <input id="start-date" type="text" class="form-control"
-                                           data-ng-model="$parent.startDate"
-                                           datepicker-popup="dd-MMMM-yyyy" ng-focus="open($event)" is-open="isOpen"
-                                           min-date="minDate" max-date="'2015-06-22'" datepicker-options="options"
-                                           ng-required="true" close-text="Close"/>
-                        <span class="input-group-btn">
-                            <button type="button" class="btn btn-default" ng-click="open($event)"><i
+
+                                    <span class="form-control">{{startDate | date:'MMMM yyyy'}}</span>
+                                    <span class="input-group-btn">
+                            <button type="button" class="btn btn-default"><i
                                     class="glyphicon glyphicon-calendar"></i></button>
                         </span>
+
+
                                 </div>
+                                <datepicker data-ng-model="startDate" min-mode="month" datepicker-mode="'month'"
+                                            min-date=""></datepicker>
                             </div>
+
                         </div>
                     </form>
                 </div>
             </section>
         </div>
         <div class="col-md-7">
-            <section class="payslip-result">
-                <h1 class="title">Payslip</h1>
-
-                <div class="result">
-                    <label for="result-gross-income">Gross income</label>
-
-                    <div class="input-group">
-                        <span class="input-group-addon">$</span>
-                        <input id="result-gross-income" class="form-control" type="text" readonly>
-                    </div>
+            <section class="payslip-result table-responsive">
+                <h1 class="title page-header">Payslip</h1>
+                <div class="payroll-user-icon">
+                    <i class="glyphicon glyphicon-user"></i>
                 </div>
-                <div class="result">
-                    <label for="result-income-tax">Income tax</label>
-
-                    <div class="input-group">
-                        <span class="input-group-addon">$</span>
-                        <input id="result-income-tax" class="form-control" type="text" readonly>
-                    </div>
+                <div class="payroll-user-info">
+                    <h2 class="payroll-user-info__name">
+                        {{firstName}}
+                        {{lastName}}
+                    </h2>
+                    {{startDate | date:'MMMM yyyy'}}
                 </div>
-                <div class="result">
-                    <label for="result-net-income">Net income</label>
+                    <table class="table payslip-table">
+                        <caption>Take home pay</caption>
 
-                    <div class="input-group">
-                        <span class="input-group-addon">$</span>
-                        <input id="result-net-income" class="form-control" type="text" readonly>
-                    </div>
-                </div>
-                <div class="result">
-                    <label for="result-super">Super</label>
+                        <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th class="payslip-table__amount-column">Amount</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>Gross income</td>
+                            <td class="payslip-table__amount-column">${{grossIncomeResult|number:2}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Income tax</td>
+                            <td class="payslip-table__amount-column">${{incomeTaxResult|number:2}}</td>
+                        </tr>
+                        <tr class="active">
+                            <td><strong>Net income</strong></td>
+                            <td class="payslip-table__amount-column">
+                                <strong>
+                                    ${{netIncomeResult|number:2}}
+                                </strong>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <table class="table payslip-table">
+                        <caption>Superannuation</caption>
 
-                    <div class="input-group">
-                        <span class="input-group-addon">$</span>
-                        <input id="result-super" class="form-control" type="text" readonly>
-                    </div>
-                </div>
+                        <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th class="payslip-table__amount-column">Amount</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>Contribution payment</td>
+                            <td class="payslip-table__amount-column"><span>$</span>
+                                <span>{{superResult|number:2}}</span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+
             </section>
         </div>
     </div>

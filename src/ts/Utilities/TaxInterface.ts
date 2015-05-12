@@ -35,6 +35,16 @@ module SimplePayslip {
 
         /**
          *
+         *
+         * @param {number} salary
+         *
+         * @return {number}
+         *   The salary.
+         */
+        setSuperRate: (salary:number) => void;
+
+        /**
+         *
          * @param startDate
          */
         setStartDate: (startDate:Date) => void;
@@ -53,6 +63,8 @@ module SimplePayslip {
          *
          */
         getNetIncome: () => number;
+
+        getSuper: () => number;
     }
 
 }

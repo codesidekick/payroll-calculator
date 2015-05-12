@@ -16,79 +16,38 @@ var SimplePayslip;
             this.setUp();
         }
         PayrollController.prototype.setUp = function () {
-            this.setUpDateWatcher();
+            this.taxUtility.setPayPeriod(12 /* Month */);
+            this.setUpWatchers();
+            this.updateValues();
+            this.$scope.dateOptions = {
+                initDate: new Date()
+            };
         };
-        PayrollController.prototype.setUpDateWatcher = function () {
-            var $scope = this.$scope, self = this;
-            $scope.$watch("startDate", function (startDate, oldValue) {
+        PayrollController.prototype.setUpWatchers = function () {
+            var $scope = this.$scope, taxUtility = this.taxUtility, self = this;
+            $scope.annualSalary = 0;
+            $scope.$watch("annualSalary", function (annualSalary, oldValue) {
+                taxUtility.setAnnualSalary(annualSalary);
+                self.updateValues();
             });
+            $scope.$watch("superRate", function (superRate, oldValue) {
+                taxUtility.setSuperRate(superRate);
+                self.updateValues();
+            });
+            $scope.$watch("startDate", function (startDate, oldValue) {
+                taxUtility.setStartDate(startDate);
+                self.updateValues();
+            });
+        };
+        PayrollController.prototype.updateValues = function () {
+            this.$scope.grossIncomeResult = this.taxUtility.getGrossIncome();
+            this.$scope.incomeTaxResult = this.taxUtility.getIncomeTax();
+            this.$scope.netIncomeResult = this.taxUtility.getNetIncome();
+            this.$scope.superResult = this.taxUtility.getSuper();
         };
         return PayrollController;
     })();
     SimplePayslip.PayrollController = PayrollController;
-})(SimplePayslip || (SimplePayslip = {}));
-/**
- * @file
- * Date picker controller TypeScript file.
- *
- * Included automatically by app.ts before compilation.
- */
-var SimplePayslip;
-(function (SimplePayslip) {
-    /**
-     * Payroll controller.
-     */
-    var DatePickerController = (function () {
-        /**
-         * {@inheritdoc}
-         */
-        function DatePickerController($scope) {
-            this.$scope = $scope;
-            /**
-             * Date picker configuration for Angular-Bootstrap bridge.
-             *
-             * @type angular.ui.bootstrap.IDatepickerConfig
-             */
-            this.options = {
-                formatYear: 'yy',
-                startingDay: 1
-            };
-            /**
-             * Open the date picker.
-             *
-             * @param object $event
-             *   HTML Dom event.
-             */
-            this.open = function ($event) {
-                $event.preventDefault();
-                $event.stopPropagation();
-                this.isOpen = true;
-            };
-            /**
-             * Close the date picker.
-             *
-             * @param object $event
-             *   HTML Dom event.
-             */
-            this.close = function ($event) {
-                $event.preventDefault();
-                $event.stopPropagation();
-                this.isOpen = false;
-            };
-            this.setUp();
-        }
-        /**
-         * Set up the date picker and scope variables.
-         */
-        DatePickerController.prototype.setUp = function () {
-            var $scope = this.$scope;
-            $scope.options = this.options;
-            $scope.open = this.open;
-            $scope.close = this.close;
-        };
-        return DatePickerController;
-    })();
-    SimplePayslip.DatePickerController = DatePickerController;
 })(SimplePayslip || (SimplePayslip = {}));
 /**
  * @file
@@ -123,7 +82,7 @@ var SimplePayslip;
                 }
                 taxedAmount = bracketAmount * (this.percentageTax / 100);
             }
-            return Math.round(taxedAmount);
+            return taxedAmount;
         };
         return TaxTableItem;
     })();
@@ -144,10 +103,12 @@ var SimplePayslip;
             this.taxTables = taxTables;
         };
         TaxAustralia.prototype.setUp = function () {
-            this.taxTables.push(new SimplePayslip.TaxTableItem(18200, 37000, 19));
-            this.taxTables.push(new SimplePayslip.TaxTableItem(37000, 80000, 32.5));
-            this.taxTables.push(new SimplePayslip.TaxTableItem(80000, 180000, 37));
-            this.taxTables.push(new SimplePayslip.TaxTableItem(180000, null, 180000));
+            var taxTables = [];
+            taxTables.push(new SimplePayslip.TaxTableItem(18200, 37000, 19));
+            taxTables.push(new SimplePayslip.TaxTableItem(37000, 80000, 32.5));
+            taxTables.push(new SimplePayslip.TaxTableItem(80000, 180000, 37));
+            taxTables.push(new SimplePayslip.TaxTableItem(180000, null, 45));
+            this.setTaxTables(taxTables);
         };
         /**
          *
@@ -169,6 +130,17 @@ var SimplePayslip;
         };
         /**
          *
+         *
+         * @param {number} superRate
+         *
+         * @return {number}
+         *   The salary.
+         */
+        TaxAustralia.prototype.setSuperRate = function (superRate) {
+            this.superRate = superRate;
+        };
+        /**
+         *
          * @param startDate
          */
         TaxAustralia.prototype.setStartDate = function (startDate) {
@@ -178,24 +150,35 @@ var SimplePayslip;
          *
          */
         TaxAustralia.prototype.getGrossIncome = function () {
-            return this.annualSalary / this.payPeriod;
+            return TaxAustralia.round(this.annualSalary / this.payPeriod);
+        };
+        TaxAustralia.prototype.getIncomeTax = function () {
+            var incomeTax = this.getTotalIncomeTax();
+            incomeTax /= this.payPeriod;
+            return TaxAustralia.round(incomeTax);
         };
         /**
          *
          */
-        TaxAustralia.prototype.getIncomeTax = function () {
+        TaxAustralia.prototype.getTotalIncomeTax = function () {
             var incomeTax = 0;
             for (var delta in this.taxTables) {
                 var taxTableItem = this.taxTables[delta];
                 incomeTax += taxTableItem.getTaxedAmount(this.annualSalary);
             }
-            return incomeTax;
+            return TaxAustralia.round(incomeTax);
         };
         /**
          *
          */
         TaxAustralia.prototype.getNetIncome = function () {
-            return this.annualSalary - this.getIncomeTax();
+            return this.getGrossIncome() - this.getIncomeTax();
+        };
+        TaxAustralia.prototype.getSuper = function () {
+            return TaxAustralia.round(this.getGrossIncome() * (this.superRate / 100));
+        };
+        TaxAustralia.round = function (amount) {
+            return Math.round(amount);
         };
         return TaxAustralia;
     })();
@@ -205,10 +188,11 @@ var SimplePayslip;
 /// <reference path="typings/jquery/jquery.d.ts" />
 /// <reference path="typings/angular-ui-bootstrap/angular-ui-bootstrap.d.ts" />
 /// <reference path="Controllers/PayrollController.ts" />
-/// <reference path="Controllers/DatePickerController.ts" />
 /// <reference path="Utilities/TaxAustralia.ts" />
 // Define the Angular module for our application.
 var app = angular.module("app", ["ui.bootstrap"]);
-app.controller("PayrollController", ["$scope", SimplePayslip.TaxAustralia, SimplePayslip.PayrollController]);
-app.controller("DatePickerController", ["$scope", SimplePayslip.DatePickerController]);
+app.factory('taxAustralia', function () {
+    return new SimplePayslip.TaxAustralia();
+});
+app.controller("PayrollController", ["$scope", "taxAustralia", SimplePayslip.PayrollController]);
 //# sourceMappingURL=app.js.map

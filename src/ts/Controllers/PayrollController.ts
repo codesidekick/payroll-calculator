@@ -10,7 +10,15 @@ module SimplePayslip {
      */
     export interface PayrollControllerScope extends angular.IScope {
         startDate: Date;
-        endDate: Date;
+        annualSalary: number;
+        superRate: number;
+        grossIncomeResult: number;
+        incomeTaxResult: number;
+        netIncomeResult: number;
+        superResult: number;
+        dateOptions: angular.ui.bootstrap.IDatepickerConfig;
+        firstName: string;
+        lastName: string;
     }
 
     /**
@@ -22,18 +30,48 @@ module SimplePayslip {
             this.setUp();
         }
 
-
         private setUp() {
-            this.setUpDateWatcher();
+            this.taxUtility.setPayPeriod(SimplePayslip.PayPeriod.Month);
+            this.setUpWatchers();
+            this.updateValues();
+
+            this.$scope.dateOptions = {
+                initDate: new Date()
+            }
         }
 
-        private setUpDateWatcher() {
+        private setUpWatchers() {
             var $scope:PayrollControllerScope = this.$scope,
+                taxUtility:TaxInterface = this.taxUtility,
                 self = this;
 
-            $scope.$watch("startDate", function (startDate:Date, oldValue) {
+            $scope.annualSalary = 0;
 
+            $scope.$watch("annualSalary", function (annualSalary:number, oldValue) {
+                taxUtility.setAnnualSalary(annualSalary);
+
+                self.updateValues();
+            });
+
+            $scope.$watch("superRate", function (superRate:number, oldValue) {
+                taxUtility.setSuperRate(superRate);
+
+                self.updateValues();
+            });
+
+            $scope.$watch("startDate", function (startDate:Date, oldValue) {
+                taxUtility.setStartDate(startDate);
+
+                self.updateValues();
             });
         }
+
+        public updateValues() {
+            this.$scope.grossIncomeResult = this.taxUtility.getGrossIncome();
+            this.$scope.incomeTaxResult = this.taxUtility.getIncomeTax();
+            this.$scope.netIncomeResult = this.taxUtility.getNetIncome();
+            this.$scope.superResult = this.taxUtility.getSuper();
+        }
+
     }
 }
