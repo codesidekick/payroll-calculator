@@ -14,7 +14,8 @@ that automatically compiles TypeScript and SASS files as well as runs the full t
 
 ## Demo
 Visit [http://codesidekick.github.io/payroll-calculator](http://codesidekick.github.io/payroll-calculator) to demo the
-app.
+app or [http://codesidekick.github.io/payroll-calculator/tests.html](http://codesidekick.github.io/payroll-calculator/tests.html)
+to run the tests.
 
 ## Demo guide
 1. Check out the repository.
