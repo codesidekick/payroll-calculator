@@ -12,6 +12,10 @@ that automatically compiles TypeScript and SASS files as well as runs the full t
 * Grunt
 * Bower
 
+## Demo
+Visit [http://codesidekick.github.io/payroll-calculator](http://codesidekick.github.io/payroll-calculator) to demo the
+app.
+
 ## Demo guide
 1. Check out the repository.
 2. Visit dist/index.html to access the demonstration.
