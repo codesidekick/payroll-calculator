@@ -1,7 +1,7 @@
 // Define the Angular module for our application.
 var app = angular.module("app", ["ui.bootstrap"]);
 
-app.factory('taxAustralia', function() {
+app.factory('taxAustralia', function () {
     return new SimplePayslip.TaxAustralia();
 });
 

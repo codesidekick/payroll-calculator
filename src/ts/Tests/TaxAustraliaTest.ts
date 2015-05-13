@@ -1,20 +1,20 @@
 QUnit.module("TaxAustralia tests");
 
-test('Gross income for a month', function() {
+test('Gross income for a month', function () {
     var taxAustralia = new SimplePayslip.TaxAustralia();
     taxAustralia.setAnnualSalary(120000);
 
     equal(10000, taxAustralia.getGrossIncome(SimplePayslip.PayPeriod.Month), 'Month gross income is correct');
 });
 
-test('Gross income for a week', function() {
+test('Gross income for a week', function () {
     var taxAustralia = new SimplePayslip.TaxAustralia();
     taxAustralia.setAnnualSalary(52000);
 
     equal(1000, taxAustralia.getGrossIncome(SimplePayslip.PayPeriod.Week), 'Week gross income is correct');
 });
 
-test('Income tax for lower bracket', function() {
+test('Income tax for lower bracket', function () {
     var taxAustralia = new SimplePayslip.TaxAustralia();
     taxAustralia.setAnnualSalary(18199);
 
@@ -25,7 +25,7 @@ test('Income tax for lower bracket', function() {
     equal(0, taxAustralia.getIncomeTax(), 'No monthly tax for upper threshold');
 });
 
-test('Income tax for second bracket', function() {
+test('Income tax for second bracket', function () {
     var taxAustralia = new SimplePayslip.TaxAustralia();
     taxAustralia.setAnnualSalary(36999);
 
@@ -36,7 +36,7 @@ test('Income tax for second bracket', function() {
     equal(298, taxAustralia.getIncomeTax(), 'Monthly tax for upper threshold correct');
 });
 
-test('Income tax for third bracket', function() {
+test('Income tax for third bracket', function () {
     var taxAustralia = new SimplePayslip.TaxAustralia();
     taxAustralia.setAnnualSalary(79999);
 
@@ -47,7 +47,7 @@ test('Income tax for third bracket', function() {
     equal(1462, taxAustralia.getIncomeTax(), 'Monthly tax for upper threshold correct');
 });
 
-test('Income tax for fourth bracket', function() {
+test('Income tax for fourth bracket', function () {
     var taxAustralia = new SimplePayslip.TaxAustralia();
     taxAustralia.setAnnualSalary(179999);
 
@@ -58,7 +58,7 @@ test('Income tax for fourth bracket', function() {
     equal(4546, taxAustralia.getIncomeTax(), 'Monthly tax for upper threshold correct');
 });
 
-test('Income tax for final bracket', function() {
+test('Income tax for final bracket', function () {
     var taxAustralia = new SimplePayslip.TaxAustralia();
     taxAustralia.setAnnualSalary(1000000);
 
@@ -69,7 +69,7 @@ test('Income tax for final bracket', function() {
     equal(35296, taxAustralia.getIncomeTax(), 'Monthly tax for millionaire correct');
 });
 
-test('Income tax for average wage', function() {
+test('Income tax for average wage', function () {
     var taxAustralia = new SimplePayslip.TaxAustralia();
     taxAustralia.setAnnualSalary(74724);
 
@@ -80,7 +80,7 @@ test('Income tax for average wage', function() {
     equal(1319, taxAustralia.getIncomeTax(), 'Monthly tax for upper threshold correct');
 });
 
-test('Super calculation', function() {
+test('Super calculation', function () {
     var taxAustralia = new SimplePayslip.TaxAustralia();
     taxAustralia.setAnnualSalary(74724);
     taxAustralia.setSuperRate(9.5);

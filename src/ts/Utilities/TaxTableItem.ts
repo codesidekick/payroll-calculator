@@ -11,7 +11,8 @@ module SimplePayslip {
          * @param {number} percentageTax
          *   The percentage of tax as a whole number that the bracket will use.
          */
-        public constructor(private bracketStart:number, private bracketEnd:number, private percentageTax:number) {}
+        public constructor(private bracketStart:number, private bracketEnd:number, private percentageTax:number) {
+        }
 
         /**
          * Get the amount of tax to pay on this bracket for a given annual income.

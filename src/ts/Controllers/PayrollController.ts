@@ -1,4 +1,3 @@
-
 /**
  * @file
  * Payroll controller TypeScript file.
