@@ -1,5 +1,0 @@
-# Libraries and modules should be installed via Grunt.
-node_modules
-bower_components
-dist/lib/*
-src/ts/typings
