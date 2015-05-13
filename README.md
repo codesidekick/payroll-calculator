@@ -1,5 +1,4 @@
 # Simple Payroll Calculator
-_By Marton Bodonyi_
 
 ## Synopsis
 An experimental angularjs application written with TypeScript to calculate Australian payroll taxes.
@@ -25,3 +24,6 @@ that automatically compiles TypeScript and SASS files as well as runs the full t
 4. In the root directory run `grunt dev` to execute the watchers for compiling SCSS and TypeScript files.
 5. Edit the files in the `/src` directory and preview the generated app. Every time the watcher runs, the test suite for
    the app will run and ensure that there are no failures.
+
+## Credits
+* Marton Bodonyi (@codesidekick)
