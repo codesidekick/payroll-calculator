@@ -11,15 +11,17 @@ var SimplePayslip;
          * @param annualIncome
          */
         TaxTableItem.prototype.getTaxedAmount = function (annualIncome) {
-            var taxedAmount = 0;
-            if (annualIncome > this.bracketStart) {
-                var bracketAmount = annualIncome - this.bracketStart;
-                if (this.bracketEnd != null) {
-                    bracketAmount -= annualIncome - this.bracketEnd;
-                }
-                taxedAmount = bracketAmount * (this.percentageTax / 100);
+            return this.getTaxTableAmount(annualIncome) * (this.percentageTax / 100);
+        };
+        TaxTableItem.prototype.getTaxTableAmount = function (annualIncome) {
+            var taxTableAmount = 0;
+            if (annualIncome > this.bracketEnd && this.bracketEnd != null) {
+                taxTableAmount = this.bracketEnd - this.bracketStart;
             }
-            return taxedAmount;
+            else if (annualIncome > this.bracketStart) {
+                taxTableAmount = annualIncome - this.bracketStart;
+            }
+            return taxTableAmount;
         };
         return TaxTableItem;
     })();

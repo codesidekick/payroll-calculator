@@ -9,5 +9,6 @@ declare module SimplePayslip {
          * @param annualIncome
          */
         getTaxedAmount(annualIncome: number): number;
+        getTaxTableAmount(annualIncome: number): number;
     }
 }

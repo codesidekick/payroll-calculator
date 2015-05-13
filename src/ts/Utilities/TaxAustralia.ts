@@ -5,7 +5,7 @@ module SimplePayslip {
     export class TaxAustralia implements TaxInterface {
         private annualSalary:number;
         private startDate:Date;
-        private payPeriod:PayPeriod;
+        private payPeriod:PayPeriod = PayPeriod.Month;
         private taxTables:TaxTableItem[];
         private superRate:number;
 
@@ -72,7 +72,7 @@ module SimplePayslip {
         /**
          *
          */
-        private getTotalIncomeTax():number {
+        public getTotalIncomeTax():number {
             var incomeTax:number = 0;
 
             for (var delta in this.taxTables) {

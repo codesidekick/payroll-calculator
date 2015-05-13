@@ -45,7 +45,7 @@ declare module SimplePayslip {
         /**
          *
          */
-        private getTotalIncomeTax();
+        getTotalIncomeTax(): number;
         getIncomeTax(): number;
         /**
          *

@@ -14,19 +14,20 @@ module SimplePayslip {
          * @param annualIncome
          */
         public getTaxedAmount(annualIncome:number):number {
-            var taxedAmount:number = 0;
+            return this.getTaxTableAmount(annualIncome) * (this.percentageTax / 100);
+        }
 
-            if (annualIncome > this.bracketStart) {
-                var bracketAmount:number = annualIncome - this.bracketStart;
+        public getTaxTableAmount(annualIncome:number):number {
+            var taxTableAmount:number = 0;
 
-                if (this.bracketEnd != null) {
-                    bracketAmount -= annualIncome - this.bracketEnd;
-                }
-
-                taxedAmount = bracketAmount * (this.percentageTax / 100);
+            if (annualIncome > this.bracketEnd && this.bracketEnd != null) {
+                taxTableAmount = this.bracketEnd - this.bracketStart;
+            }
+            else if (annualIncome > this.bracketStart) {
+                taxTableAmount = annualIncome - this.bracketStart;
             }
 
-            return taxedAmount;
+            return taxTableAmount;
         }
     }
 }

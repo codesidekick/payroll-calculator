@@ -5,6 +5,7 @@ var SimplePayslip;
      */
     var TaxAustralia = (function () {
         function TaxAustralia() {
+            this.payPeriod = 12 /* Month */;
             this.setUp();
         }
         TaxAustralia.prototype.setUp = function () {
