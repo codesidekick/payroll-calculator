@@ -2,43 +2,60 @@ QUnit.module("TaxAustralia tests");
 test('Gross income for a month', function () {
     var taxAustralia = new SimplePayslip.TaxAustralia();
     taxAustralia.setAnnualSalary(120000);
-    taxAustralia.setPayPeriod(12 /* Month */);
-    equal(taxAustralia.getGrossIncome(), 10000, 'Month gross income is correct.');
+    equal(10000, taxAustralia.getGrossIncome(12 /* Month */), 'Month gross income is correct');
 });
 test('Gross income for a week', function () {
     var taxAustralia = new SimplePayslip.TaxAustralia();
     taxAustralia.setAnnualSalary(52000);
-    taxAustralia.setPayPeriod(52 /* Week */);
-    equal(taxAustralia.getGrossIncome(), 1000, 'Week gross income is correct.');
+    equal(1000, taxAustralia.getGrossIncome(52 /* Week */), 'Week gross income is correct');
 });
 test('Income tax for lower bracket', function () {
     var taxAustralia = new SimplePayslip.TaxAustralia();
     taxAustralia.setAnnualSalary(18199);
-    equal(taxAustralia.getTotalIncomeTax(), 0, 'No tax for upper threshold of lower bracket');
+    equal(0, taxAustralia.getTotalIncomeTax(), 'No tax for upper threshold');
+    equal(0, taxAustralia.getIncomeTax(52 /* Week */), 'No weekly tax for upper threshold');
+    equal(0, taxAustralia.getIncomeTax(), 'No monthly tax for upper threshold');
 });
 test('Income tax for second bracket', function () {
     var taxAustralia = new SimplePayslip.TaxAustralia();
     taxAustralia.setAnnualSalary(36999);
-    equal(taxAustralia.getTotalIncomeTax(), 3572, 'Tax for upper threshold of second bracket correct');
+    equal(3572, taxAustralia.getTotalIncomeTax(), 'Tax for upper threshold correct');
+    equal(69, taxAustralia.getIncomeTax(52 /* Week */), 'Weekly tax for upper threshold correct');
+    equal(298, taxAustralia.getIncomeTax(), 'Monthly tax for upper threshold correct');
 });
 test('Income tax for third bracket', function () {
     var taxAustralia = new SimplePayslip.TaxAustralia();
     taxAustralia.setAnnualSalary(79999);
-    equal(taxAustralia.getTotalIncomeTax(), 17547, 'Tax for upper threshold of third bracket correct');
+    equal(17547, taxAustralia.getTotalIncomeTax(), 'Tax for upper threshold correct');
+    equal(337, taxAustralia.getIncomeTax(52 /* Week */), 'Weekly tax for upper threshold correct');
+    equal(1462, taxAustralia.getIncomeTax(), 'Monthly tax for upper threshold correct');
 });
 test('Income tax for fourth bracket', function () {
     var taxAustralia = new SimplePayslip.TaxAustralia();
     taxAustralia.setAnnualSalary(179999);
-    equal(taxAustralia.getTotalIncomeTax(), 54547, 'Tax for upper threshold of fourth bracket correct');
+    equal(54547, taxAustralia.getTotalIncomeTax(), 'Tax for upper threshold of fourth bracket correct');
+    equal(1049, taxAustralia.getIncomeTax(52 /* Week */), 'Weekly tax for upper threshold correct');
+    equal(4546, taxAustralia.getIncomeTax(), 'Monthly tax for upper threshold correct');
 });
 test('Income tax for final bracket', function () {
     var taxAustralia = new SimplePayslip.TaxAustralia();
     taxAustralia.setAnnualSalary(1000000);
-    equal(taxAustralia.getTotalIncomeTax(), 423547, 'Tax for millionaire correct');
+    equal(423547, taxAustralia.getTotalIncomeTax(), 'Tax for millionaire correct');
+    equal(8145, taxAustralia.getIncomeTax(52 /* Week */), 'Weekly tax for millionaire correct');
+    equal(35296, taxAustralia.getIncomeTax(), 'Monthly tax for millionaire correct');
 });
 test('Income tax for average wage', function () {
     var taxAustralia = new SimplePayslip.TaxAustralia();
     taxAustralia.setAnnualSalary(74724);
-    equal(taxAustralia.getTotalIncomeTax(), 15832, 'Tax for average Australian wage correct');
+    equal(15832, taxAustralia.getTotalIncomeTax(), 'Tax for average Australian wage correct');
+    equal(304, taxAustralia.getIncomeTax(52 /* Week */), 'Weekly tax for upper threshold correct');
+    equal(1319, taxAustralia.getIncomeTax(), 'Monthly tax for upper threshold correct');
+});
+test('Super calculation', function () {
+    var taxAustralia = new SimplePayslip.TaxAustralia();
+    taxAustralia.setAnnualSalary(74724);
+    taxAustralia.setSuperRate(9.5);
+    equal(137, taxAustralia.getSuper(52 /* Week */), 'Weekly super for average wage correct');
+    equal(592, taxAustralia.getSuper(), 'Monthly super for average wage correct');
 });
 //# sourceMappingURL=TaxAustraliaTest.js.map

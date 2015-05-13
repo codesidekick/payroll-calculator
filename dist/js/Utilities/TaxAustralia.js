@@ -4,10 +4,15 @@ var SimplePayslip;
      * Australian Tax Class Calculator.
      */
     var TaxAustralia = (function () {
+        /**
+         * Class constructor.
+         */
         function TaxAustralia() {
-            this.payPeriod = 12 /* Month */;
             this.setUp();
         }
+        /**
+         * Initialize the Tax system.
+         */
         TaxAustralia.prototype.setUp = function () {
             this.taxTables = [
                 new SimplePayslip.TaxTableItem(18200, 37000, 19),
@@ -17,49 +22,40 @@ var SimplePayslip;
             ];
         };
         /**
+         * {@inheritdoc}
          *
-         * @param {PayPeriod} payPeriod
-         */
-        TaxAustralia.prototype.setPayPeriod = function (payPeriod) {
-            this.payPeriod = payPeriod;
-        };
-        /**
-         *
-         *
-         * @param {number} salary
-         *
-         * @return {number}
-         *   The salary.
+         * @see SimplePayslip.TaxInterface
          */
         TaxAustralia.prototype.setAnnualSalary = function (salary) {
             this.annualSalary = salary;
         };
         /**
+         * {@inheritdoc}
          *
-         *
-         * @param {number} superRate
-         *
-         * @return {number}
-         *   The salary.
+         * @see SimplePayslip.TaxInterface
          */
         TaxAustralia.prototype.setSuperRate = function (superRate) {
             this.superRate = superRate;
         };
         /**
+         * {@inheritdoc}
          *
-         * @param startDate
+         * @see SimplePayslip.TaxInterface
          */
         TaxAustralia.prototype.setStartDate = function (startDate) {
             this.startDate = startDate;
         };
         /**
+         * {@inheritdoc}
          *
+         * @see SimplePayslip.TaxInterface
          */
-        TaxAustralia.prototype.getGrossIncome = function () {
-            return TaxAustralia.round(this.annualSalary / this.payPeriod);
+        TaxAustralia.prototype.getGrossIncome = function (payPeriod) {
+            if (payPeriod === void 0) { payPeriod = 12 /* Month */; }
+            return TaxAustralia.round(this.annualSalary / payPeriod);
         };
         /**
-         *
+         * Get the total yearly income tax.
          */
         TaxAustralia.prototype.getTotalIncomeTax = function () {
             var incomeTax = 0;
@@ -69,20 +65,44 @@ var SimplePayslip;
             }
             return TaxAustralia.round(incomeTax);
         };
-        TaxAustralia.prototype.getIncomeTax = function () {
+        /**
+         * {@inheritdoc}
+         *
+         * @see SimplePayslip.TaxInterface
+         */
+        TaxAustralia.prototype.getIncomeTax = function (payPeriod) {
+            if (payPeriod === void 0) { payPeriod = 12 /* Month */; }
             var incomeTax = this.getTotalIncomeTax();
-            incomeTax /= this.payPeriod;
+            incomeTax /= payPeriod;
             return TaxAustralia.round(incomeTax);
         };
         /**
+         * {@inheritdoc}
          *
+         * @see SimplePayslip.TaxInterface
          */
-        TaxAustralia.prototype.getNetIncome = function () {
-            return this.getGrossIncome() - this.getIncomeTax();
+        TaxAustralia.prototype.getNetIncome = function (payPeriod) {
+            if (payPeriod === void 0) { payPeriod = 12 /* Month */; }
+            return this.getGrossIncome(payPeriod) - this.getIncomeTax(payPeriod);
         };
-        TaxAustralia.prototype.getSuper = function () {
-            return TaxAustralia.round(this.getGrossIncome() * (this.superRate / 100));
+        /**
+         * {@inheritdoc}
+         *
+         * @see SimplePayslip.TaxInterface
+         */
+        TaxAustralia.prototype.getSuper = function (payPeriod) {
+            if (payPeriod === void 0) { payPeriod = 12 /* Month */; }
+            return TaxAustralia.round(this.getGrossIncome(payPeriod) * (this.superRate / 100));
         };
+        /**
+         * Wrapper for rounding numbers.
+         *
+         * @param {number} amount
+         *   The number to round.
+         *
+         * @returns {number}
+         *   The rounded number.
+         */
         TaxAustralia.round = function (amount) {
             return Math.round(amount);
         };

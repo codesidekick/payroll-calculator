@@ -44,10 +44,6 @@ module.exports = function(grunt){
         files: ['src/scss/**/*.scss'],
         tasks: ['sass']
       },
-      typescript: {
-        files: ['src/ts/**/*.ts'],
-        tasks: ['typescript']
-      },
       qunit: {
         files: ['src/ts/**/*.ts'],
         tasks: ['qunit']
@@ -58,7 +54,7 @@ module.exports = function(grunt){
         logConcurrentOutput: true
       },
       dev: {
-        tasks: ["watch:css", "watch:typescript", "watch:qunit"]
+        tasks: ["watch:css", "typescript:base", "watch:qunit"]
       }
     },
     bower: {

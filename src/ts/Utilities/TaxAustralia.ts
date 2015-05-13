@@ -5,14 +5,19 @@ module SimplePayslip {
     export class TaxAustralia implements TaxInterface {
         private annualSalary:number;
         private startDate:Date;
-        private payPeriod:PayPeriod = PayPeriod.Month;
         private taxTables:TaxTableItem[];
         private superRate:number;
 
+        /**
+         * Class constructor.
+         */
         public constructor() {
             this.setUp();
         }
 
+        /**
+         * Initialize the Tax system.
+         */
         public setUp() {
             this.taxTables = [
                 new TaxTableItem(18200, 37000, 19),
@@ -23,54 +28,43 @@ module SimplePayslip {
         }
 
         /**
+         * {@inheritdoc}
          *
-         * @param {PayPeriod} payPeriod
-         */
-        public setPayPeriod(payPeriod:PayPeriod):void {
-            this.payPeriod = payPeriod;
-        }
-
-        /**
-         *
-         *
-         * @param {number} salary
-         *
-         * @return {number}
-         *   The salary.
+         * @see SimplePayslip.TaxInterface
          */
         public setAnnualSalary(salary:number):void {
             this.annualSalary = salary;
         }
 
         /**
+         * {@inheritdoc}
          *
-         *
-         * @param {number} superRate
-         *
-         * @return {number}
-         *   The salary.
+         * @see SimplePayslip.TaxInterface
          */
         public setSuperRate(superRate:number):void {
             this.superRate = superRate;
         }
 
         /**
+         * {@inheritdoc}
          *
-         * @param startDate
+         * @see SimplePayslip.TaxInterface
          */
         public setStartDate(startDate:Date):void {
             this.startDate = startDate;
         }
 
         /**
+         * {@inheritdoc}
          *
+         * @see SimplePayslip.TaxInterface
          */
-        public getGrossIncome():number {
-            return TaxAustralia.round(this.annualSalary / this.payPeriod);
+        public getGrossIncome(payPeriod:PayPeriod = PayPeriod.Month):number {
+            return TaxAustralia.round(this.annualSalary / payPeriod);
         }
 
         /**
-         *
+         * Get the total yearly income tax.
          */
         public getTotalIncomeTax():number {
             var incomeTax:number = 0;
@@ -84,25 +78,46 @@ module SimplePayslip {
             return TaxAustralia.round(incomeTax);
         }
 
-        public getIncomeTax():number {
+        /**
+         * {@inheritdoc}
+         *
+         * @see SimplePayslip.TaxInterface
+         */
+        public getIncomeTax(payPeriod:PayPeriod = PayPeriod.Month):number {
             var incomeTax:number = this.getTotalIncomeTax();
 
-            incomeTax /= this.payPeriod;
+            incomeTax /= payPeriod;
 
             return TaxAustralia.round(incomeTax);
         }
 
         /**
+         * {@inheritdoc}
          *
+         * @see SimplePayslip.TaxInterface
          */
-        public getNetIncome():number {
-            return this.getGrossIncome() - this.getIncomeTax();
+        public getNetIncome(payPeriod:PayPeriod = PayPeriod.Month):number {
+            return this.getGrossIncome(payPeriod) - this.getIncomeTax(payPeriod);
         }
 
-        public getSuper():number {
-            return TaxAustralia.round(this.getGrossIncome() * (this.superRate / 100));
+        /**
+         * {@inheritdoc}
+         *
+         * @see SimplePayslip.TaxInterface
+         */
+        public getSuper(payPeriod:PayPeriod = PayPeriod.Month):number {
+            return TaxAustralia.round(this.getGrossIncome(payPeriod) * (this.superRate / 100));
         }
 
+        /**
+         * Wrapper for rounding numbers.
+         *
+         * @param {number} amount
+         *   The number to round.
+         *
+         * @returns {number}
+         *   The rounded number.
+         */
         private static round(amount:number):number {
             return Math.round(amount);
         }

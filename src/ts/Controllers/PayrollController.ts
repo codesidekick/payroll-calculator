@@ -23,16 +23,26 @@ module SimplePayslip {
     }
 
     /**
-     * Payroll controller.
+     * Angular Payroll controller.
      */
     export class PayrollController {
 
+        /**
+         * Class constructor.
+         *
+         * @param {PayrollControllerScope} $scope
+         *   The angular scope to be passed to the controller.
+         * @param {TaxInterface} taxUtility
+         *   The tax system to be used by the controller.
+         */
         constructor(private $scope:PayrollControllerScope, private taxUtility:TaxInterface) {
             this.setUp();
         }
 
+        /**
+         * Preparation for the controller when initially invoked.
+         */
         private setUp() {
-            this.taxUtility.setPayPeriod(SimplePayslip.PayPeriod.Month);
             this.setUpWatchers();
             this.updateValues();
 
@@ -41,6 +51,9 @@ module SimplePayslip {
             }
         }
 
+        /**
+         * Set up Angular watchers for models.
+         */
         private setUpWatchers() {
             var $scope:PayrollControllerScope = this.$scope,
                 taxUtility:TaxInterface = this.taxUtility,
@@ -67,6 +80,9 @@ module SimplePayslip {
             });
         }
 
+        /**
+         * Update all scope model values with latest values from TaxInterface.
+         */
         public updateValues() {
             this.$scope.grossIncomeResult = this.taxUtility.getGrossIncome();
             this.$scope.incomeTaxResult = this.taxUtility.getIncomeTax();
